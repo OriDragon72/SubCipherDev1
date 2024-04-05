@@ -1,0 +1,110 @@
+import os
+
+import random
+import string
+
+def generate_random_alphabet():
+  alphabet = list(string.ascii_lowercase)
+  random.shuffle(alphabet)
+  return ''.join(alphabet)
+
+def encrypt():
+  alphaR1 = {1: 'a', 2: 'b', 3: 'c', 4: 'd'}
+  alphaR2 = {5: 'e', 6: 'f', 7: 'g', 8: 'h'}
+  alphaR3 = {9: 'i', 10: 'j', 11: 'k', 12: 'l'}
+  alphaR4 = {13: 'm', 14: 'n', 15: 'o', 16: 'p'}
+  alphaR5 = {17: 'q', 18: 'r', 19: 's', 20: 't'}
+  alphaR6 = {21: 'u', 22: 'v', 23: 'w', 24: 'x'}
+  alphaR7 = {25: 'y', 26: 'z'}
+
+  alphaRef = {}
+  alphaRef.update(alphaR1)
+  alphaRef.update(alphaR2)
+  alphaRef.update(alphaR3)
+  alphaRef.update(alphaR4)
+  alphaRef.update(alphaR5)
+  alphaRef.update(alphaR6)
+  alphaRef.update(alphaR7)
+
+  alphaC1 = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+  alphaC2 = {'e': 5, 'f': 6, 'g': 7, 'h': 8}
+  alphaC3 = {'i': 9, 'j': 10, 'k': 11, 'l': 12}
+  alphaC4 = {'m': 13, 'n': 14, 'o': 15, 'p': 16}
+  alphaC5 = {'q': 17, 'r': 18, 's': 19, 't': 20}
+  alphaC6 = {'u': 21, 'v': 22, 'w': 23, 'x': 24}
+  alphaC7 = {'y': 25, 'z': 26}
+
+  alphaCout = {}
+  alphaCout.update(alphaC1)
+  alphaCout.update(alphaC2)
+  alphaCout.update(alphaC3)
+  alphaCout.update(alphaC4)
+  alphaCout.update(alphaC5)
+  alphaCout.update(alphaC6)
+  alphaCout.update(alphaC7)
+
+  key = "abcdefghijklmnopqrstuvwxyz"
+  alpha = "abcefgijklmnopqrstuvwxyz"
+
+  os.system("clear")
+
+  print("You have chosen to encrypt")
+  message = input("Enter your message[format: str]: ")
+  msg = message.lower()
+  print("Do you have a key or woudl you like to generate one?")
+  ans = input("Type 'k' for key and 'g' for generate: ")
+
+  if ans == 'k':
+    key = input("Enter your key[in format of mapping]: ")
+  elif ans == 'g':
+    key = generate_random_alphabet()
+  else:
+    print("Invalid input")
+    exit(2)
+
+  key = key.lower()
+
+  alphaTV = {}
+  alphaRTV = {}
+  for i in range(len(key)):
+    alphaRTV[i] = key[i]
+    alphaTV[key[i]] = i
+
+  ALPHA = {}
+  ALPHARev = {}
+  RefVal = range(len(alpha))
+
+  for i in range(len(msg)):
+    for a in RefVal:
+      if msg[i] == alphaRef[a]:
+        ALPHARev[alphaCout[alphaRef[a]]] = msg[i]
+        ALPHA[msg[i]] = alphaCout[alphaRef[a]]
+        break
+
+  MGS = ""
+
+  for i in range(len(msg)):
+    for a in RefVal:
+      if ALPHARev[i] == alphaRTV[a]:
+        MGS = MGS + alphaRTV[a]
+        break
+
+  print("Original message: " + message)
+  print("Encrypted message: " + MGS)
+  print("Key used: " + key)
+
+#Start of program
+print("Welcome to Substitiution Cipher\n")
+
+print("Would you like to encrypt or decrypt?")
+
+ans = input("Type 'e' for encrypt and 'd' for decrypt: ")
+
+if ans == 'e':
+  encrypt()
+elif ans == 'd':
+  #decrypt()
+  a = 1
+else:
+  print("Invalid input")
+  exit(1)
